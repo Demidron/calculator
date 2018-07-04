@@ -1,0 +1,61 @@
+﻿<Window x:Class="calculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:calculator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="400" Width="500">
+    <Window.Resources>
+        <XmlDataProvider x:Key="financeProvider" Source="http://resources.finance.ua/ru/public/currency-cash.xml" XPath="source"/>
+       
+    </Window.Resources>
+    <Grid>
+        <TabControl>
+            <TabItem Header="Валютный калькулятор">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MinWidth="160"/>
+                        <ColumnDefinition  MinWidth="40" />
+                        <ColumnDefinition  MinWidth="40"/>
+                        <ColumnDefinition  MinWidth="40" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition MinHeight="100"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Content="По курсу" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"  Margin="5 5 5 5"/>
+                    <ComboBox x:Name="Banks" DisplayMemberPath="title/@value"  SelectedIndex="0" 
+                              Height="20" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Margin="5 5 5 5" 
+                              ItemsSource="{Binding Source={StaticResource financeProvider},XPath=organizations/organization}"
+                              SelectionChanged="Banks_SelectionChanged" >
+                    </ComboBox>
+                    <TextBox x:Name="TextBox1" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Stretch"  Margin="5 5 5 5"
+                             TextChanged="TextBox1_TextChanged"/>
+                    <ListBox x:Name="ListCurrencies1" DisplayMemberPath="@id"  Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Margin="5 30 5 5" SelectedIndex="0" 
+                             SelectionChanged="ListCurrencies1_SelectionChanged"/>
+                    
+                    <!--<ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    
+                                    <Label Content="{Binding XPath=@id}"/>
+                                   
+                                </WrapPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>-->
+
+                    <RadioButton Grid.Column="2" Content="Купить" x:Name="Buy" VerticalAlignment="Top" IsChecked="True" Checked="Buy_Checked"/>
+                    <RadioButton Grid.Column="2" Content="Продать" x:Name="Sell" VerticalAlignment="Bottom" Checked="Sell_Checked"/>
+                    <TextBox Grid.Column="3" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Stretch"  Margin="5 5 5 5" 
+                             x:Name="TextBox2" />
+                    <ListBox x:Name="ListCurrencies2" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Stretch" Margin="5 30 5 5"
+                             SelectionChanged="ListCurrencies2_SelectionChanged" DisplayMemberPath="@id" Visibility="Hidden"/>
+                </Grid>
+                
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
